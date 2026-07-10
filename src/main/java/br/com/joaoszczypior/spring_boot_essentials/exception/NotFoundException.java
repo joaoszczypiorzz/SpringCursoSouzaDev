@@ -1,4 +1,7 @@
 package br.com.joaoszczypior.spring_boot_essentials.exception;
 
-public class NotFoundException {
+public class NotFoundException extends Exception{
+    public NotFoundException(String message) {
+        super(message);
+    }
 }
