@@ -4,6 +4,7 @@ import br.com.joaoszczypior.spring_boot_essentials.exception.ErrorResponse;
 import br.com.joaoszczypior.spring_boot_essentials.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -26,5 +27,14 @@ public class GlobalExeptionHandler {
                 .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .build();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handlerMethodNotValidArgumentException (MethodArgumentNotValidException exception) {
+        ErrorResponse response = ErrorResponse.builder()
+                .message("Campos Obrigatórios nulos ou não informados!")
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }
