@@ -1,5 +1,6 @@
 package br.com.joaoszczypior.spring_boot_essentials.handler;
 
+import br.com.joaoszczypior.spring_boot_essentials.exception.BadRequestException;
 import br.com.joaoszczypior.spring_boot_essentials.exception.ErrorResponse;
 import br.com.joaoszczypior.spring_boot_essentials.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,16 @@ public class GlobalExeptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handlerMethodNotValidArgumentException (MethodArgumentNotValidException exception) {
         ErrorResponse response = ErrorResponse.builder()
-                .message("Campos Obrigatórios nulos ou não informados!")
+                .message("Requisição com dados faltando ou inválidos")
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> badRequestExecption (BadRequestException exception) {
+        ErrorResponse response = ErrorResponse.builder()
+                .message(exception.getMessage())
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);

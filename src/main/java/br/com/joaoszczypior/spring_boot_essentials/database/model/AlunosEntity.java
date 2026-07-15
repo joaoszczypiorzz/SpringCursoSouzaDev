@@ -1,5 +1,6 @@
 package br.com.joaoszczypior.spring_boot_essentials.database.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,7 +37,10 @@ public class AlunosEntity {
     @Column(nullable = false, unique = true, name = "email")
     private String email;
 
-    @OneToOne
+    // O cascade serve para todas as vezes que eu realizar uma modificação
+    // neste relacionamento o Hibernate sabe que deve atualizar as informações
+    // na entidade referenciada
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "avaliacao_fisica_id")
     private AvaliacoesFisicasEntity avalicaoFisica;
 

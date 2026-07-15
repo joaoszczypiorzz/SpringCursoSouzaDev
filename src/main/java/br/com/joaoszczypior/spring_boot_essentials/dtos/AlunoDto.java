@@ -1,5 +1,6 @@
 package br.com.joaoszczypior.spring_boot_essentials.dtos;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,9 +15,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ExercicioDto {
-    @NotBlank(message = "O nome deve não pode ser nulo e é obrigatório")
+public class AlunoDto {
+    @NotBlank
     private String nome;
-    @NotBlank (message = "O grupo muscular não pode ser nulo e é obrigatório")
-    private String grupoMuscular;
+    @Email (message = "E-mail informado inválido!")
+    private String email;
 }
