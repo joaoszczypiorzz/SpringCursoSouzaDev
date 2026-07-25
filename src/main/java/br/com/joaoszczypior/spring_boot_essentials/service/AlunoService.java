@@ -24,6 +24,7 @@ public class AlunoService {
     private final IAvalicacoesFisicasRepository avalicacoesFisicasRepository;
     private final ITreinosRepository treinosRepository;
 
+    //#region CRUD Basico de Alunos
     @Transactional
     public void create(AlunoDto dto) throws BadRequestException {
         AlunosEntity alu =  alunosRepository.findByEmail(dto.getEmail())
@@ -90,4 +91,5 @@ public class AlunoService {
         //3. deletar as avaliações fisicas vinculadas a esse aluno
         avalicacoesFisicasRepository.deleteById(aluno.getAvalicaoFisica().getId());
     }
+    //#endregion
 }
