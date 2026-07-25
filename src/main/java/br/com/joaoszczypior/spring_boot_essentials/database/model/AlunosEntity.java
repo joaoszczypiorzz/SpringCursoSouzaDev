@@ -41,7 +41,9 @@ public class AlunosEntity {
 
     // O cascade serve para todas as vezes que eu realizar uma modificação
     // neste relacionamento o Hibernate sabe que deve atualizar as informações
-    // na entidade referenciada.
+    // na entidade referenciada, Aqui realizei uma alteração, antes ele estava como ALL, ou seja
+    // realizava todos as funções do Cascade, alterei para usar apenas a de persistencia de dados
+    // e a de realizar o merge(Relacionamentos) nas tabelas referenciadas
     // Usei para esse relacionamento o fetchType lazy (Preguisoço)
     // onde basicamente o Hibernate vai carregar essa informação apenas
     // quando eu de fato Chamar ela no código
@@ -49,7 +51,7 @@ public class AlunosEntity {
     // ela sempre irá buscar essa informação independente se foi chamada em código ou não
     // A usabilidade disso seria para reduzir buscas que o Hibernate realiza no banco de dados
     // Dependendo obviamente se desejamos sempre buscar essa informação ou não.
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "avaliacao_fisica_id")
     private AvaliacoesFisicasEntity avalicaoFisica;
 
