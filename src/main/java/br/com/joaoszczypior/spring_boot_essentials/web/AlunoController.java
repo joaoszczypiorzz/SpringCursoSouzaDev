@@ -1,8 +1,10 @@
 package br.com.joaoszczypior.spring_boot_essentials.web;
 
 
+import br.com.joaoszczypior.spring_boot_essentials.database.model.AlunosEntity;
 import br.com.joaoszczypior.spring_boot_essentials.database.model.AvaliacoesFisicasEntity;
 import br.com.joaoszczypior.spring_boot_essentials.dtos.AlunoDto;
+import br.com.joaoszczypior.spring_boot_essentials.dtos.AlunoListDto;
 import br.com.joaoszczypior.spring_boot_essentials.exception.BadRequestException;
 import br.com.joaoszczypior.spring_boot_essentials.exception.NotFoundException;
 import br.com.joaoszczypior.spring_boot_essentials.service.AlunoService;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/alunos")
 @RequiredArgsConstructor
@@ -25,6 +29,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AlunoController {
 
     private final AlunoService alunoService;
+
+    @GetMapping
+    public List<AlunoListDto> findAll () {
+        return alunoService.findAll();
+    }
 
     @PostMapping(value = "/create")
     @ResponseStatus(HttpStatus.CREATED)

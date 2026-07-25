@@ -4,11 +4,14 @@ import br.com.joaoszczypior.spring_boot_essentials.database.model.AlunosEntity;
 import br.com.joaoszczypior.spring_boot_essentials.database.model.AvaliacoesFisicasEntity;
 import br.com.joaoszczypior.spring_boot_essentials.database.model.repository.IAlunosRepository;
 import br.com.joaoszczypior.spring_boot_essentials.dtos.AlunoDto;
+import br.com.joaoszczypior.spring_boot_essentials.dtos.AlunoListDto;
 import br.com.joaoszczypior.spring_boot_essentials.exception.BadRequestException;
 import br.com.joaoszczypior.spring_boot_essentials.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -41,5 +44,16 @@ public class AlunoService {
             throw new BadRequestException("Aluno ainda não possui Avaliações fisicas cadastradas");
         }
         return avaliacao;
+    }
+
+    /**
+     * Função para buscar todos os alunos cadastrados no banco e transforma-los em Dtos
+     * A serem repassadas ao usuário da API
+     * @return uma List de Aluno DTO
+     * @Author João Szczypior
+     */
+    public List<AlunoListDto> findAll () {
+        return alunosRepository.findAll().stream()
+                .map(a -> new AlunoListDto(a.getId(), a.getNome(), a.getEmail())).toList();
     }
 }

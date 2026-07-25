@@ -1,8 +1,10 @@
 package br.com.joaoszczypior.spring_boot_essentials.database.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -39,8 +41,15 @@ public class AlunosEntity {
 
     // O cascade serve para todas as vezes que eu realizar uma modificação
     // neste relacionamento o Hibernate sabe que deve atualizar as informações
-    // na entidade referenciada
-    @OneToOne(cascade = CascadeType.ALL)
+    // na entidade referenciada.
+    // Usei para esse relacionamento o fetchType lazy (Preguisoço)
+    // onde basicamente o Hibernate vai carregar essa informação apenas
+    // quando eu de fato Chamar ela no código
+    // Além do LAZY, também temos a opção de usar o EAGER(Ansioso), que é o contratrio do Lazy
+    // ela sempre irá buscar essa informação independente se foi chamada em código ou não
+    // A usabilidade disso seria para reduzir buscas que o Hibernate realiza no banco de dados
+    // Dependendo obviamente se desejamos sempre buscar essa informação ou não.
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "avaliacao_fisica_id")
     private AvaliacoesFisicasEntity avalicaoFisica;
 
