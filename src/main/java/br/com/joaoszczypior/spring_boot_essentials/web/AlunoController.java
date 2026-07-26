@@ -11,6 +11,7 @@ import br.com.joaoszczypior.spring_boot_essentials.service.AlunoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +43,7 @@ public class AlunoController {
         alunoService.create(dto);
     }
 
+    @PreAuthorize("#alunoId == authentication.principal.id or hasRole('ADMIN')")
     @GetMapping("/{alunoId}/avaliacao")
     public AvaliacoesFisicasEntity getAvaliacao(@PathVariable Integer alunoId) throws NotFoundException, BadRequestException {
         return alunoService.getAlunoAvaliacao(alunoId);

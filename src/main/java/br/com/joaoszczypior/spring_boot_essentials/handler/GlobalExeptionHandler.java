@@ -5,9 +5,12 @@ import br.com.joaoszczypior.spring_boot_essentials.exception.ErrorResponse;
 import br.com.joaoszczypior.spring_boot_essentials.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.nio.file.AccessDeniedException;
 
 @RestControllerAdvice
 public class GlobalExeptionHandler {
@@ -46,5 +49,14 @@ public class GlobalExeptionHandler {
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .build();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ErrorResponse> handlerAcessDenied (AuthorizationDeniedException exception) {
+        ErrorResponse response = ErrorResponse.builder()
+                .message(exception.getMessage())
+                .statusCode(HttpStatus.FORBIDDEN.value())
+                .build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 }
